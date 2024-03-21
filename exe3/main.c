@@ -24,6 +24,53 @@ void data_task(void *p) {
 }
 
 
+// void process_task(void *p) {
+//     int data = 0;
+//     int window[5] = {0}; // Array para armazenar a janela
+//     int window_index = 0; // Índice da janela
+//     int window_count = 0; // Número de valores na janela
+
+//     // Fila circular para armazenar os últimos 5 valores recebidos
+//     int circular_buffer[5] = {0};
+//     int circular_index = 0; // Índice da fila circular
+
+//     while (true) {
+//         if (xQueueReceive(xQueueData, &data, 100)) {
+//             printf("Recebido: %d\n", data); // Depuração: Imprime o valor recebido
+
+//             // Adiciona o novo valor à janela
+//             window[window_index] = data;
+//             window_index = (window_index + 1) % 5;
+//             window_count++;
+
+//             // Adiciona o novo valor à fila circular
+//             circular_buffer[circular_index] = data;
+//             circular_index = (circular_index + 1) % 5;
+
+//             // Se a janela estiver completa, calcula a média móvel
+//             if (window_count == 5) {
+//                 printf("Janela completa.\n"); // Depuração: Indica que a janela está completa
+
+//                 // Calcula a média móvel
+//                 int sum = 0;
+//                 for (int i = 0; i < 5; i++) {
+//                     sum += circular_buffer[i];
+//                 }
+//                 int filtered_data = sum / 5;
+
+//                 // Imprime o dado filtrado na UART
+//                 printf("%d\n", filtered_data);
+
+//                 // Deixa este atraso
+//                 vTaskDelay(pdMS_TO_TICKS(50));
+
+//                 // Resetar window_count após o cálculo da média móvel
+//                 window_count = 0;
+//             }
+//         }
+//     }
+// }
+
 
 void process_task(void *p) {
     int data = 0;
@@ -52,6 +99,7 @@ void process_task(void *p) {
 
                 // Deixa este atraso
                 vTaskDelay(pdMS_TO_TICKS(50));
+                window_count = 0;
             }
         }
     }
