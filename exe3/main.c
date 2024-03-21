@@ -23,18 +23,36 @@ void data_task(void *p) {
     }
 }
 
+
+
 void process_task(void *p) {
     int data = 0;
+    int window[5] = {0}; // Array para armazenar a janela
+    int window_index = 0; // Índice da janela
+    int window_count = 0; // Número de valores na janela
 
     while (true) {
         if (xQueueReceive(xQueueData, &data, 100)) {
-            // implementar filtro aqui!
+            // Adiciona o novo valor à janela
+            window[window_index] = data;
+            window_index = (window_index + 1) % 5;
+            window_count++;
 
+            // Verifica se a janela está completa
+            if (window_count == 5) {
+                // Calcula a média móvel
+                int sum = 0;
+                for (int i = 0; i < 5; i++) {
+                    sum += window[i];
+                }
+                int filtered_data = sum / 5;
 
+                // Imprime o dado filtrado na UART
+                printf("%d\n", filtered_data);
 
-
-            // deixar esse delay!
-            vTaskDelay(pdMS_TO_TICKS(50));
+                // Deixa este atraso
+                vTaskDelay(pdMS_TO_TICKS(50));
+            }
         }
     }
 }
