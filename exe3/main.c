@@ -60,7 +60,6 @@ void data_task(void *p) {
 void process_task(void *p) {
     int data = 0;
     int v[5];
-    int contador=0;
     int media=0;
     while (true) {
         if (xQueueReceive(xQueueData, &data, 100)) {
