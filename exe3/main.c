@@ -71,10 +71,10 @@ void process_task(void *p) {
             v[3]=v[4];
             v[4]=data;
             
-            if (contador >= 4) {
-                media=((v[4]+v[3]+v[2]+v[1]+v[0])/5);
-                printf("%d\n",media);
-            }
+          
+            media=((v[4]+v[3]+v[2]+v[1]+v[0])/5);
+            printf("%d\n",media);
+            
 
             contador ++;
         
