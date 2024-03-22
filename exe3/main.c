@@ -70,12 +70,8 @@ void process_task(void *p) {
             v[3]=v[4];
             v[4]=data;
             
-          
             media=((v[4]+v[3]+v[2]+v[1]+v[0])/5);
             printf("%d\n",media);
-            
-
-            contador ++;
         
             // deixar esse delay!
            
