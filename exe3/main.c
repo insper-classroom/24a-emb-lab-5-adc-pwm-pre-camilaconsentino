@@ -30,31 +30,19 @@ void data_task(void *p) {
 //     int window_index = 0; // Índice da janela
 //     int window_count = 0; // Número de valores na janela
 
-//     // Fila circular para armazenar os últimos 5 valores recebidos
-//     int circular_buffer[5] = {0};
-//     int circular_index = 0; // Índice da fila circular
-
 //     while (true) {
 //         if (xQueueReceive(xQueueData, &data, 100)) {
-//             printf("Recebido: %d\n", data); // Depuração: Imprime o valor recebido
-
 //             // Adiciona o novo valor à janela
 //             window[window_index] = data;
 //             window_index = (window_index + 1) % 5;
 //             window_count++;
 
-//             // Adiciona o novo valor à fila circular
-//             circular_buffer[circular_index] = data;
-//             circular_index = (circular_index + 1) % 5;
-
-//             // Se a janela estiver completa, calcula a média móvel
+//             // Verifica se a janela está completa
 //             if (window_count == 5) {
-//                 printf("Janela completa.\n"); // Depuração: Indica que a janela está completa
-
 //                 // Calcula a média móvel
 //                 int sum = 0;
 //                 for (int i = 0; i < 5; i++) {
-//                     sum += circular_buffer[i];
+//                     sum += window[i];
 //                 }
 //                 int filtered_data = sum / 5;
 
@@ -63,44 +51,37 @@ void data_task(void *p) {
 
 //                 // Deixa este atraso
 //                 vTaskDelay(pdMS_TO_TICKS(50));
-
-//                 // Resetar window_count após o cálculo da média móvel
 //                 window_count = 0;
 //             }
 //         }
 //     }
 // }
 
-
 void process_task(void *p) {
     int data = 0;
-    int window[5] = {0}; // Array para armazenar a janela
-    int window_index = 0; // Índice da janela
-    int window_count = 0; // Número de valores na janela
-
+    int v[5];
+    int contador=0;
+    int media=0;
     while (true) {
         if (xQueueReceive(xQueueData, &data, 100)) {
-            // Adiciona o novo valor à janela
-            window[window_index] = data;
-            window_index = (window_index + 1) % 5;
-            window_count++;
-
-            // Verifica se a janela está completa
-            if (window_count == 5) {
-                // Calcula a média móvel
-                int sum = 0;
-                for (int i = 0; i < 5; i++) {
-                    sum += window[i];
-                }
-                int filtered_data = sum / 5;
-
-                // Imprime o dado filtrado na UART
-                printf("%d\n", filtered_data);
-
-                // Deixa este atraso
-                vTaskDelay(pdMS_TO_TICKS(50));
-                window_count = 0;
+            // implementar filtro aqui!
+            v[0]=v[1];
+            v[1]=v[2];
+            v[2]=v[3];
+            v[3]=v[4];
+            v[4]=data;
+            
+            if (contador += 5) {
+                media=((v[4]+v[3]+v[2]+v[1]+v[0])/5);
+                printf("%d\n",media);
             }
+
+            contador ++;
+        
+            // deixar esse delay!
+           
+            vTaskDelay(pdMS_TO_TICKS(50));
+
         }
     }
 }
